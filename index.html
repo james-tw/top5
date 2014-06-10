@@ -1,0 +1,241 @@
+<html>
+  <head>
+    <title>top5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootflat.css" rel="stylesheet">
+    <link href="css/top5.css" rel="stylesheet" media="screen">
+</head>
+<body>
+	<div class="modal fade" id="modal-register" style="display: none;" aria-hidden="true">
+	    <div class="modal-dialog modal-xs">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button class="close" data-dismiss="modal" type="button">&times;</button>
+	                <h4 class="modal-title">Registration</h4>
+	            </div>
+	            <div class="modal-body">
+
+	                <div class="form-group">
+	                	<div class="row">
+				            <label class="col-xs-3 control-label">Email</label>
+				            <div class="col-xs-8">
+				                <input id="register-email" class="form-control" type="text" placeholder="">
+				            </div>
+	                	</div>
+	                	<div class="row">
+				            <label class="col-xs-3 control-label">Password</label>
+				            <div class="col-xs-8">
+				                <input id="register-password" class="form-control" type="password" placeholder="Don't mess it up!">
+				            </div>
+	                	</div>
+	                	<div class="row">
+	                		<div class="col-xs-8 col-xs-offset-3">
+	                			<p>When you register for an account, you can save your lists! Don't worry. We won't share your information with anyone or send you emails.</p>
+	                		</div>
+	                	</div>
+			        </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-link" data-dismiss="modal" type="button">Close</button>
+	                <button id="register" class="btn btn-success" type="button">Register!</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal fade" id="modal-login" style="display: none;" aria-hidden="true">
+	    <div class="modal-dialog modal-xs">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button class="close" data-dismiss="modal" type="button">&times;</button>
+	                <h4 class="modal-title">Login</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="form-group">
+	                	<div class="row">
+				            <label class="col-xs-3 control-label">Email</label>
+				            <div class="col-xs-8">
+				                <input id="login-email" class="form-control" type="text" placeholder="">
+				            </div>
+	                	</div>
+	                	<div class="row">
+				            <label class="col-xs-3 control-label">Password</label>
+				            <div class="col-xs-8">
+				                <input id="login-password" class="form-control" type="password" placeholder="">
+				            </div>
+	                	</div>
+			        </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-link" data-dismiss="modal" type="button">Close</button>
+	                <button id="login" class="btn btn-primary" type="button">Log In</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal fade" id="modal-share" style="display: none;" aria-hidden="true">
+	    <div class="modal-dialog modal-xs">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button class="close" data-dismiss="modal" type="button">&times;</button>
+	                <h4 class="modal-title">Share your list!</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div><p>Sorry, this feature isn't yet available!</p></div>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal fade" id="modal-about" style="display: none;" aria-hidden="true">
+	    <div class="modal-dialog modal-xs">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button class="close" data-dismiss="modal" type="button">&times;</button>
+	                <h4 class="modal-title">About Tops</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div>
+	                	<p>top5 was developed entirely by <a href="http://www.jamestw.net">James TW</a> using Twitter Bootstrap 3 and the Bootflat theme. Database and login functionality are made possible by <a href="http://www.firebase.com">Firebase</a>. Album database API provided by <a href="http://www.last.fm">last.fm</a>.</p>
+	                	<p>You can contact me by <a href="mailto:meroin@gmail.com">email</a> or see my <a href="http://www.twitter.com/james_tw">Twitter</a>, <a href="http://www.linkedin.com/pub/james-tettelbach-whitehouse/91/b05/9b2">LinkedIn</a>, or <a href="https://github.com/james-tw">GitHub</a> pages.</p>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="navbar navbar-inverse">
+        <div class="container">
+        	<div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand">top5</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-7">
+	        	<ul class="nav navbar-nav navbar-right">
+	              <li><a href="#modal-about" data-toggle="modal">About</a></li>
+	              <li><a href="#modal-register" data-toggle="modal">Register</a></li>
+	              <li><a href="#modal-login" data-toggle="modal">Log In</a></li>
+	              <li><a id="logout" >Log Out</a></li>
+	            </ul>
+            </div>
+        </div>
+	</div>
+    <div class="jumbotron">
+    	<div class="container">
+		    <h1>List and share your favorite albums.</h1>
+		    <p><a href="#modal-register" data-toggle="modal" class="btn btn-primary">Register</a> or just start a list!</p>
+		</div>
+	</div>
+	<div class="list-container container clearfix">
+		<div class="row">		
+			<div class="list-header col-md-7">
+				<h2 class="list-name">My Top Albums</h2><input class="list-name-edit input-lg" type="text" maxLength="40">
+				<a style="display:none;" class="name-edit-button"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="#modal-share" data-toggle="modal" class="share btn btn-primary">Share</a>
+				<a class="save btn btn-success">Save</a>
+				<div class="album-list-dropdown btn-group btn-input clearfix">
+				  <button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+				    <span class="glyphicon glyphicon-list"></span> <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" role="menu">
+				  	<li class="dropdown-header">My Lists</li>
+				  	<li class="divider"></li>
+				  	<li class="new-user-list"><a>New List</a></li>
+				  	<li class="divider"></li>
+				  </ul>
+				</div>
+			</div>
+		</div>
+		<div class="row main-content">
+          	<div class="col-md-7">
+	            <div id="album-list" class="list-group">
+	              	<a id="list-item-1" class="list-group-item"><div class="row">
+		              	<div class="col-xs-3 list-thumbnail"><img class="list-image img-rounded img-responsive" src="" alt=""></div>
+						<div class="col-xs-8">
+		                	<h1 class="list-title list-group-item-heading"></h1>
+		                	<p class="list-artist list-group-item-text"></p>
+		                	<div class="list-links"></div>
+		                </div>
+		                <div class="search-button-col"><button style="display:none;"class="list-search-button btn btn-default"><span class="glyphicon glyphicon-search"></span></button></div>
+		                <div class="list-input-col col-xs-8 col-xs-offset-3">
+		                  	<input class="list-input input-lg form-control" type="text" placeholder="What is your favorite album?"></input>
+		                </div>           	
+	               	</div></a>
+					<a id="list-item-2" class="list-group-item"><div class="row">
+		              	<div class="col-xs-3 list-thumbnail"><img class="list-image img-rounded img-responsive" src="" alt=""></div>
+						<div class="col-xs-8">
+		                	<h1 class="list-title list-group-item-heading"></h1>
+		                	<p class="list-artist list-group-item-text"></p>
+		                	<div class="list-links"></div>
+		                </div>
+		                <div class="search-button-col"><button style="display:none;"class="list-search-button btn btn-default"><span class="glyphicon glyphicon-search"></span></button></div>
+		                <div class="list-input-col col-xs-8 col-xs-offset-3">
+		                  	<input class="list-input input-lg form-control" type="text" placeholder="What is your second favorite album?"></input>
+		                </div>   
+	               	</div></a>
+					<a id="list-item-3" class="list-group-item"><div class="row">
+		              	<div class="col-xs-3 list-thumbnail"><div class="list-image-container"><img class="list-image img-rounded img-responsive" src="" alt=""></div></div>
+						<div class="col-xs-8">
+		                	<h1 class="list-title list-group-item-heading"></h1>
+		                	<p class="list-artist list-group-item-text"></p>
+		                	<div class="list-links"></div>
+		                </div>
+		                <div class="search-button-col"><button style="display:none;"class="list-search-button btn btn-default"><span class="glyphicon glyphicon-search"></span></button></div>
+		                <div class="list-input-col col-xs-8 col-xs-offset-3">
+		                  	<input class="list-input input-lg form-control" type="text" placeholder="What is your third favorite album?"></input>
+		                </div>   
+	               	</div></a>
+					<a id="list-item-4" class="list-group-item"><div class="row">
+		              	<div class="col-xs-3 list-thumbnail"><div class="list-image-container"><img class="list-image img-rounded img-responsive" src="" alt=""></div></div>
+						<div class="col-xs-8">
+		                	<h1 class="list-title list-group-item-heading"></h1>
+		                	<p class="list-artist list-group-item-text"></p>
+		                	<div class="list-links"></div>
+		                </div>
+		                <div class="search-button-col"><button style="display:none;"class="list-search-button btn btn-default"><span class="glyphicon glyphicon-search"></span></button></div>
+		                <div class="list-input-col col-xs-8 col-xs-offset-3">
+		                  	<input class="list-input input-lg form-control" type="text" placeholder="What is your fourth favorite album?"></input>
+		                </div>   
+	               	</div></a>
+					<a id="list-item-5" class="list-group-item"><div class="row">
+		              	<div class="col-xs-3 list-thumbnail"><div class="list-image-container"><img class="list-image img-rounded img-responsive" src="" alt=""></div></div>
+						<div class="col-xs-8">
+		                	<h1 class="list-title list-group-item-heading"></h1>
+		                	<p class="list-artist list-group-item-text"></p>
+		                	<div class="list-links"></div>
+		                </div>
+		                <div class="search-button-col"><button style="display:none;"class="list-search-button btn btn-default"><span class="glyphicon glyphicon-search"></span></button></div>
+		                <div class="list-input-col col-xs-8 col-xs-offset-3">
+		                  	<input class="list-input input-lg form-control" type="text" placeholder="What is your fifth favorite album?"></input>
+		                </div>   
+	               	</div></a>
+
+	            </div>
+          	</div>
+	  		<div class="col-md-5">
+	            <div id="search-results" class="list-group">
+	              <!--Search results get added here by top5.js-->
+	            </div>
+	        </div>
+        </div>
+	</div>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/v0/firebase-auth-client.js"></script>
+    <script src="js/lastfm.api.js"></script>
+    <script src="js/lastfm.api.md5.js"></script>
+    <script src="js/top5.js"></script>
+</body>
+
