@@ -7,6 +7,8 @@ Top5.r(); //Will.
 var zzz = function x() {};
 zzz();
 
+//Change to new database structure! :D
+
 
 var ref = new Firebase("https://second-login-appy.firebaseio.com/");
 myUser = -1;
