@@ -1,4 +1,12 @@
-//Hey!
+(function(Top5){
+    var z = function(){};
+    Top5.r = function(){};
+}(window.Top5 = window.Top5||{}));
+Top5.z(); //Won't work.
+Top5.r(); //Will.
+var zzz = function x() {};
+zzz();
+
 
 var ref = new Firebase("https://second-login-appy.firebaseio.com/");
 myUser = -1;
