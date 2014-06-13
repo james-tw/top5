@@ -203,11 +203,15 @@ var loadList = function(listName) {
     //Update the list name HTML with the one stored on the server.
     loadRef.once('value', function(childSnapshot) {
         $('.list-name').text(childSnapshot.child('listName').val());
+        $('#list-link').text(childSnapshot.child('listName').val())
     })
     $('.list-input').each(function(){$(this).val("").blur()}); 
     //Enter the loaded list's ID into loadedList. 
     loadedList = listName;
     console.log("[loadList()] loadedList = " + loadedList);
+    var listURL = '/list.php?u=' + myUser.id + '&id=' + listName;
+    console.log(listURL);
+    $('#list-link').attr('href', listURL);
 }
 //DONE updating (needs testing)
 var saveList = function(){
