@@ -110,8 +110,6 @@ function updateSearch(searchTerms, listItem) {
                             $('#search-results').empty();
                             for (var i=0; i< 4; i++) {
                                 var thisAlbum = data.results.albummatches.album[i];
-                                //$('<div/>').text(thisAlbum.name).appendTo($('#search-results'))
-                                //.prepend($('<img/>').attr('src', thisAlbum.image[1]['#text']));
                                 $([
                                     '<a class="search-result-item list-group-item"><div class="row">',
                                         '<div class="search-thumbnail-box col-xs-3"><img class="img-rounded img-responsive" src="',thisAlbum.image[2]['#text'],'" alt=""/></div>',
@@ -171,17 +169,17 @@ var updateDropdown = function() {
     $('.user-list').remove();
     listRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id + "/lists/");
     listRef.once('value', function(snapshot) {
-        /*snapshot.forEach(function(child) {
+        snapshot.forEach(function(child) {
             var listName = child.child('listName').val(); //Gets the listName of each list.
             $(['<li class="user-list" data-ref="', child.name() ,'"><a>', listName,'</a></li>'].join("")).appendTo($('.album-list-dropdown ul'));
-        })*/
+        })
         $( '.user-list' ).on( 'click', function( event ) {
             var target = $( event.currentTarget ).attr('data-ref');
             //Load the selected list.
-            console.log('calling loadList() from updateDropdown()')
+            console.log('Calling loadList() from updateDropdown()')
             loadList(target);
             //Close dropdown.
-            $( event.currentTarget ).closest( '.btn-group' ).children( '.dropdown-toggle' ).dropdown( 'toggle' );
+            $( event.currentTarget ).closest( '.btn-group' ).children( '.dropdown-toggle' ).dropdown( 'close' );
             return false;
         });
     });
@@ -256,9 +254,7 @@ var updateListName = function(listNameEdit) {
     } else {
          $('.list-name').text(listNameEdit.val()).show();
     }
-    if (myUser != -1) { //If logged in, immediately save the new name.
-        //TEST THIS FEATURE.
-        //userRef.child('lists').child(loadedList).set({ 'listName' : $('.list-name').text() })
+    if (myUser != -1) { //If logged in...
     }
 }
 
