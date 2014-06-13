@@ -1,3 +1,4 @@
+/*
 (function(Top5){
     var z = function(){};
     Top5.r = function(){};
@@ -6,7 +7,7 @@ Top5.z(); //Won't work.
 Top5.r(); //Will.
 var zzz = function x() {};
 zzz();
-
+*/
 //Change to new database structure! :D
 
 
@@ -14,7 +15,7 @@ var ref = new Firebase("https://second-login-appy.firebaseio.com/");
 myUser = -1;
 var userRef;
 var loadRef;
-var loadedList;
+var loadedList = -1;
 var lastfm = new LastFM({ //**Is there a simple way to obscure API keys?**
   apiKey    : 'edfe190dd2cd16dbcc0344f2e3fb942d',
   apiSecret : '697612f8d29ee89adeaa5b6f2df77900'
@@ -32,21 +33,13 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         myUser = user;
         var lastChild;
         userRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id);
-        userRef.once('child_added', function(snapshot) {
-            list = snapshot.val(); //Find the most recently added list.
+        userRef.child('lists').once('child_added', function(snapshot) {
+            list = snapshot.name(); //Find the most recently added list.
             if(snapshot.val() === null) {
                 alert('List does not exist.');
             } else {
-                console.log(list);
-                $('.list-name').text(snapshot.name());
-                loadedList = snapshot.name();
-                console.log("loadedList = " + loadedList);
-                snapshot.forEach(function(childSnapshot) { //Iterate over each item in the list.
-                    $('#list-item-' + childSnapshot.getPriority()).find('.list-image').attr('src', childSnapshot.val().img);
-                    $('#list-item-' + childSnapshot.getPriority()).find('.list-title').text(childSnapshot.val().title);
-                    $('#list-item-' + childSnapshot.getPriority()).find('.list-artist').text(childSnapshot.val().artist);
-                    $('#list-item-' + childSnapshot.getPriority()).find('.list-input').trigger('blur');
-                });
+                //Load the first list the user created. (Make this the most recent one!)
+                loadList(list);
             }
         });
         updateDropdown();
@@ -72,12 +65,9 @@ $('#register').on('click', function () {
             console.log('logging new registered user');
             doLogin(email, password);
             $('#modal-register').modal('toggle');
-            //Clear out list HTML-- should probably create a function to do all this. Find a way to make it useable for New List too.
-            $('.list-title').text('');
-            $('.list-artist').text('');
-            $('.list-input-col').find('.list-input').show();
-            $('.list-image').attr('src', "");
-            $('.list-search-button').hide();
+            //Clear out all list HTML and make name editable.
+            generateNewList();
+            updateDropdown();
         } else {alert(error);}
     });
 });
@@ -169,64 +159,93 @@ function updateSearch(searchTerms, listItem) {
         $('#search-results').empty();
     }
 }
-
+var generateNewList = function() {
+    $('.list-title').text('');
+    $('.list-artist').text('');
+    $('.list-image').attr('src', "");
+    $('.list-input').show();
+    $('.list-search-button').hide();
+    $('.list-name').text('New List').click();   
+}
+//DONE updating!
 var updateDropdown = function() {
-    $('.album-list-dropdown ul').remove(".user-list");
-    userRef.once('value', function(snapshot) {
-        snapshot.forEach(function(child) {
-            var listName = child.name();
-            console.log(listName);
-            $(['<li class="user-list"><a>', listName,'</a></li>'].join("")).appendTo($('.album-list-dropdown ul'));
-        })
+    $('.user-list').remove();
+    listRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id + "/lists/");
+    listRef.once('value', function(snapshot) {
+        /*snapshot.forEach(function(child) {
+            var listName = child.child('listName').val(); //Gets the listName of each list.
+            $(['<li class="user-list" data-ref="', child.name() ,'"><a>', listName,'</a></li>'].join("")).appendTo($('.album-list-dropdown ul'));
+        })*/
         $( '.user-list' ).on( 'click', function( event ) {
-            var $target = $( event.currentTarget ).text();
-            loadList($target);
+            var target = $( event.currentTarget ).attr('data-ref');
+            //Load the selected list.
+            console.log('calling loadList() from updateDropdown()')
+            loadList(target);
             //Close dropdown.
             $( event.currentTarget ).closest( '.btn-group' ).children( '.dropdown-toggle' ).dropdown( 'toggle' );
             return false;
         });
     });
 }
+//DONE updating (probably)!
 var loadList = function(listName) {
     console.log("attempting to load " + listName);
-    loadRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id + "/" + listName);
+    loadRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id + "/lists/" + listName); 
     loadRef.on('child_added', function(childSnapshot) {
-        //Probably not a great idea to use Priority when I could be using the ranking numbers as .name(); (Check if possible)
-        $('#list-item-' + childSnapshot.getPriority()).find('.list-image').attr('src', childSnapshot.val().img);
-        $('#list-item-' + childSnapshot.getPriority()).find('.list-title').text(childSnapshot.val().title);
-        $('#list-item-' + childSnapshot.getPriority()).find('.list-artist').text(childSnapshot.val().artist);
-        $('#list-item-' + childSnapshot.getPriority()).find('.list-input').trigger('blur');
-        $('#list-item-' + childSnapshot.getPriority()).find('.list-search-button').trigger('click');
+        //For each number 1-5, find the list-item box and fill it with the data from the list.
+        var itemNum = $('#list-item-' + childSnapshot.name());
+        itemNum.find('.list-image').attr('src', childSnapshot.val().img);
+        itemNum.find('.list-title').text(childSnapshot.val().title);
+        itemNum.find('.list-artist').text(childSnapshot.val().artist);
+        itemNum.find('.list-input').trigger('blur');
+        itemNum.find('.list-search-button').trigger('click');
     });
-        $('.list-input').each(function(){$(this).val("").blur()});
-        $('.list-name').text(listName);  
-        loadedList = listName;
-        console.log("loadedList = " + loadedList);
+    //Update the list name HTML with the one stored on the server.
+    loadRef.once('value', function(childSnapshot) {
+        $('.list-name').text(childSnapshot.child('listName').val());
+    })
+    $('.list-input').each(function(){$(this).val("").blur()}); 
+    //Enter the loaded list's ID into loadedList. 
+    loadedList = listName;
+    console.log("[loadList()] loadedList = " + loadedList);
 }
-var saveList = function(listName){
-    $('.list-group-item').each(function(){
-        var itemRank = $(this).index()+1; //Returns the rank of the current item in the loop (1-5).
-        var img = $(this).find('.list-image').attr('src');
-        var title = $(this).find('.list-title').text();
-        var artist = $(this).find('.list-artist').text();
-        //**CHANGE THIS WHEN UPDATING TO NEW DATA STRUCTURE.
-        userRef.child(listName).child(itemRank).setWithPriority({
-            title: title,
-            artist: artist,
-            img: img
-        }, itemRank);
-    });
-    //**CHANGE WHEN UPDATING TO NEW DATA STRUCTURE. THERE WILL BE NO DELETING OF OLD LISTS, ONLY OVERWRITING.
-    if (listName != loadedList && loadedList != -1) { //If the saved name differs from the most recently loaded list. (If the name was changed).
-        //delete the data at userRef.child(loadedList)
-        console.log('Name has changed. Previously lodaded list will be deleted.');
-        userRef.child(loadedList).remove( function() {
-            console.log('Old list was deleted.');
-            loadedList = listName;
-            console.log("loadedList = " + loadedList);
+//DONE updating (needs testing)
+var saveList = function(){
+    var listName = $('.list-name').text();
+    var targetList;
+    //If a user is logged in...
+    if (myUser != -1) {
+        //If no list is currently loaded, create a new one...
+        if (loadedList === -1) {
+            //targetList is now a new unique ID created under the user's lists.
+            console.log(userRef.child('lists').toString())
+            targetList = userRef.child('lists').push();
+            console.log('[saveList()] loadedList is now the NEW list at ' + targetList.name())
+            loadedList = targetList.name();
+        } else {
+            //If a list is currently loaded, targetList will now point to it.
+            console.log('testing : loadedList is ' + loadedList);
+            targetList = userRef.child('lists').child(loadedList);
+        }
+        //Set the server data based on the HTML.
+        $('.list-group-item').each(function(){
+            var itemRank = $(this).index()+1; //Returns the rank of the current item in the loop (1-5).
+            var img = $(this).find('.list-image').attr('src');
+            var title = $(this).find('.list-title').text();
+            var artist = $(this).find('.list-artist').text();
+            targetList.child(itemRank).set({
+                'title': title,
+                'artist': artist,
+                'img': img
+            });
         });
+        targetList.child('listName').set(listName);
+        updateDropdown();
+    } else {
+        //If no user is logged in, save the list as a public list and give the user a URL to share it.
     }
 }
+//DONE editing (needs testing)
 var updateListName = function(listNameEdit) {
     listNameEdit.hide();
     if (listNameEdit.val().trim() == "") { //Filler text if there is nothing entered.
@@ -234,7 +253,9 @@ var updateListName = function(listNameEdit) {
     } else {
          $('.list-name').text(listNameEdit.val()).show();
     }
-    if (myUser != -1) { //If logged in.
+    if (myUser != -1) { //If logged in, immediately save the new name.
+        //TEST THIS FEATURE.
+        //userRef.child('lists').child(loadedList).set({ 'listName' : $('.list-name').text() })
     }
 }
 
@@ -257,7 +278,7 @@ $('.save').on('click', function() {
     if($('.list-name').text() == 'New List') { 
         alert("Please enter a name for your list!");
     } else {
-        saveList($('.list-name').text()); 
+        saveList(); 
     }
 });
 
@@ -281,16 +302,12 @@ $('.list-name-edit').on('blur', function() {
 });
 //Creation of a new list. **CHANGE FOR NEW DATA STRUCTURE. AUTO SAVE WHEN CREATED? OR ONLY SAVE AFTER BEIGN FILLED IN?
 $('.new-user-list').on('click', function(){
-    console.log('.new-user-list clicked');
+    console.log('.new-user-list clicked. Unloading previous list from loadedList');
     loadedList = -1;
-    $('.list-title').text('');
-    $('.list-artist').text('');
-    $('.list-image').attr('src', "").css('padding-bottom', "0"); 
-    $('.list-input').show();
-    $('.list-search-button').hide();
+    // Empty out all list HTML, and make the name "New List" and select it.
+    generateNewList();
     // Close Dropdown 
     $( event.currentTarget ).closest( '.btn-group' ).children( '.dropdown-toggle' ).dropdown( 'toggle' );
-    $('.list-name').text('New List').click();
 
     return false;
 })
@@ -309,5 +326,12 @@ $('#search-results').on('click', function(e){
     e.stopPropagation();    
 })
 
+$('.modal-footer button').click(function(){
+    $('.modal').modal('close');
+    return false;
+})
+
 //Collapse the navbar because it forgets sometimes :)
 $('.navbar-collapse').collapse('hide');
+
+
