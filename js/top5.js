@@ -8,7 +8,6 @@ Top5.r(); //Will.
 var zzz = function x() {};
 zzz();
 */
-//Change to new database structure! :D
 
 
 var ref = new Firebase("https://second-login-appy.firebaseio.com/");
@@ -209,7 +208,7 @@ var loadList = function(listName) {
     //Enter the loaded list's ID into loadedList. 
     loadedList = listName;
     console.log("[loadList()] loadedList = " + loadedList);
-    var listURL = '/list.php?u=' + myUser.id + '&id=' + listName;
+    var listURL = '/top5/list.php?u=' + myUser.id + '&id=' + listName;
     console.log(listURL);
     $('#list-link').attr('href', listURL);
 }
