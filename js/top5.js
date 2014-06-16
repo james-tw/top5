@@ -29,6 +29,8 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
     if (user) {
         // User is already logged in.
         console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+        $('#link-login').hide();
+        $('#link-register').hide();
         myUser = user;
         var lastChild;
         userRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id);
@@ -46,6 +48,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
     } else {
         // User is logged out.
         console.log('logged out');
+        $('#link-logout').hide();
     }
 });
 
@@ -54,6 +57,9 @@ function doLogin(email, password) {
         email: email,
         password: password
     });
+    $('#link-login').hide();
+    $('#link-register').hide();
+    $('#link-logout').show();
 };
 
 $('#register').on('click', function () {
@@ -80,7 +86,7 @@ $("#login").on('click', function () {
     $('#modal-login').modal('toggle');
 });
 //Use this code for logging out
-$("#logout").click(function () {
+$("#link-logout").click(function () {
     authClient.logout();
     location.reload();
 });

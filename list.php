@@ -11,6 +11,7 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootflat.css" rel="stylesheet">
     <link href="css/top5.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
 </head>
 <body>
 	<div class="modal fade" id="modal-about" style="display: none;" aria-hidden="true">
