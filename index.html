@@ -137,7 +137,7 @@
     <div class="jumbotron">
     	<div class="container">
 		    <h1>List and share your favorite albums.</h1>
-		    <p><a href="#modal-register" data-toggle="modal" class="btn btn-primary">Register</a> or just start a list!</p>
+		    <p id="hero-register"><a href="#modal-register" data-toggle="modal" class="btn btn-primary">Register</a> or just start a list!</p>
 		</div>
 	</div>
 	<div class="list-container container clearfix">
@@ -145,18 +145,20 @@
 			<div class="list-header col-md-7">
 				<h2 class="list-name">My Top Albums</h2><input class="list-name-edit input-lg" type="text" maxLength="40">
 				<a style="display:none;" class="name-edit-button"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a href="#modal-share" data-toggle="modal" class="share btn btn-primary">Share</a>
-				<a class="save btn btn-success">Save</a>
-				<div class="album-list-dropdown btn-group btn-input clearfix">
-				  <button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
-				    <span class="glyphicon glyphicon-list"></span> <span class="caret"></span>
-				  </button>
-				  <ul class="dropdown-menu" role="menu">
-				  	<li class="dropdown-header">My Lists</li>
-				  	<li class="divider"></li>
-				  	<li class="new-user-list"><a>New List</a></li>
-				  	<li class="divider"></li>
-				  </ul>
+				<div class="list-header-buttons">
+					<div class="album-list-dropdown btn-group btn-input clearfix">
+					  <button type="button" class="btn btn-default dropdown-toggle form-control" data-toggle="dropdown">
+					    <span>My lists </span><span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu">
+					  	<li class="dropdown-header">My Lists</li>
+					  	<li class="divider"></li>
+					  	<li class="new-user-list"><a>New List</a></li>
+					  	<li class="divider"></li>
+					  </ul>
+					</div>
+					<a href="#modal-share" data-toggle="modal" class="share btn btn-primary">Share</a>
+					<a class="save btn btn-success">Save</a>
 				</div>
 			</div>
 		</div>

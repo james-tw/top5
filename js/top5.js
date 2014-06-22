@@ -31,6 +31,7 @@ var authClient = new FirebaseSimpleLogin(ref, function (error, user) {
         console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
         $('#link-login').hide();
         $('#link-register').hide();
+        $('#hero-register').hide();
         myUser = user;
         var lastChild;
         userRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + myUser.id);
@@ -59,6 +60,7 @@ function doLogin(email, password) {
     });
     $('#link-login').hide();
     $('#link-register').hide();
+    $('#hero-register').hide();
     $('#link-logout').show();
 };
 

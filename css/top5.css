@@ -4,6 +4,9 @@ html,body {
 	height:100%;
   	font-family: 'Open Sans',Arial,Helvetica,Sans-Serif;
 }
+* {
+	box-sizing: border-box;
+}
 
 .list-group-item:first-child {
 	border-top-right-radius: 4px;
@@ -102,44 +105,45 @@ a.list-group-item .list-group-item-heading.list-title{
 }
 .list-header {
 	position:relative;
-	height:64px;
+	height:78px;
+}
+.list-header-buttons {
+	width:100%;
+}
+.save, .share, .album-list-dropdown button {
+	border-radius: 0;
 }
 .save {
-	float:right;
-	position: absolute;
-	bottom: 0px;
-	border-radius: 0 4px 0 0;
-	right: 22px;
+	width:33.3%;
+	float:left;
+	position: relative;
 	background-color: #8CC152;
-	border: 1px solid #8CC152;
+	border: 0px;
 	padding: 6px 10px;
 }
 .share {
-	float:right;
-	position: absolute;
-	bottom: 0px;
-	border-radius: 0;
-	right: 75px;
+	width:33.3%;
+	float:left;
+	position: relative;
 	background-color: #4A89DC;
-	border: 1px solid #4A89DC;
+	border: 0px;
 	padding: 6px 10px;
-	}
-	.share:hover {
+}
+.share:hover {
 	background-color: #5D9CEC;
-	border: 1px solid #5D9CEC;
 	}
 .album-list-dropdown {
-	position: absolute;
+	float:left;
+	width:33.3%;
+	position: relative;
 	bottom: 0;
-	right:136px;
 }
 .album-list-dropdown button {
-	height: 34px;
-	width: 46px;
-	border-radius: 4px 0 0 0;
+	width: 100%;
+	height: 32px;
 }
 .dropdown-menu {
-	left:initial;
+	left: 0;
 	right: 0;
 }
 .list-name {
@@ -148,7 +152,6 @@ a.list-group-item .list-group-item-heading.list-title{
 	bottom: 0px;
 	margin-top: 16px;
 	margin-bottom: 6px;
-	max-width:58%;
 }
 .list-name-edit {
 	display: none;
@@ -176,18 +179,49 @@ a.list-group-item .list-group-item-heading.list-title{
 
 
 
+@media screen and (min-width: 600px) {
+	h2 {
+		font-size: 26px;
+	}	
+}
 @media screen and (min-width: 767px) {
 	.list-input {
 		font-size: 18px;
 	}
+	.list-name {	
+		max-width:62%;
+	}
+	.dropdown-menu {
+		left: initial;
+	}
+	.album-list-dropdown {
+		width: initial;
+		position: absolute;
+		bottom: 0;
+		right:142px;
+	}
+	.album-list-dropdown button {
+		border-radius: 4px 0 0 0;
+	}
+	.save {
+		width: initial;		
+		float:right;
+		position: absolute;
+		border-radius: 0 4px 0 0;
+		bottom: 0px;
+		right: 32px;
+	}
+	.share {
+		width: initial;
+		float:right;
+		position: absolute;
+		bottom: 0px;
+		right: 83px;
+	}
 }
-
 @media screen and (min-width: 992px) {
 	.jumbotron {
 		padding-top: 30px;
-	}
-	h2 {
-		font-size: 26px;
 	}
 	.share {
 		bottom: 0;
