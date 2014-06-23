@@ -222,38 +222,45 @@ var loadList = function(listName) {
 var saveList = function(){
     var listName = $('.list-name').text();
     var targetList;
-    //If a user is logged in...
+    var baseRef;
+    //If a user is logged in, set the baseRef to the user's list directory. Otherwise, baseRef is the orphanlists directory. (lists without a user)
     if (myUser != -1) {
-        //If no list is currently loaded, create a new one...
-        if (loadedList === -1) {
-            //targetList is now a new unique ID created under the user's lists.
-            console.log(userRef.child('lists').toString())
-            targetList = userRef.child('lists').push();
-            console.log('[saveList()] loadedList is now the NEW list at ' + targetList.name())
-            loadedList = targetList.name();
-        } else {
-            //If a list is currently loaded, targetList will now point to it.
-            console.log('testing : loadedList is ' + loadedList);
-            targetList = userRef.child('lists').child(loadedList);
-        }
-        //Set the server data based on the HTML.
-        $('.list-group-item').each(function(){
-            var itemRank = $(this).index()+1; //Returns the rank of the current item in the loop (1-5).
-            var img = $(this).find('.list-image').attr('src');
-            var title = $(this).find('.list-title').text();
-            var artist = $(this).find('.list-artist').text();
-            targetList.child(itemRank).set({
-                'title': title,
-                'artist': artist,
-                'img': img
-            });
-        });
-        targetList.child('listName').set(listName);
-        updateDropdown();
+        baseRef = userRef.child('lists');
     } else {
-        //If no user is logged in, save the list as a public list and give the user a URL to share it.
-        
+        baseRef = new Firebase("https://second-login-appy.firebaseio.com/orphanlists/");
     }
+    //If no list is currently loaded, create a new one...
+    if (loadedList === -1) {
+        //targetList is now a new unique ID created under the user's lists.
+        console.log(baseRef.toString())
+        targetList = baseRef.push();
+        console.log('[saveList()] loadedList is now the NEW list at ' + targetList.name())
+        loadedList = targetList.name();
+    } else {
+        //If a list is currently loaded, targetList will now point to it.
+        console.log('testing : loadedList is ' + loadedList);
+        targetList = baseRef.child(loadedList);
+    }
+    //Set the server data based on the HTML.
+    $('.list-group-item').each(function(){
+        var itemRank = $(this).index()+1; //Returns the rank of the current item in the loop (1-5).
+        var img = $(this).find('.list-image').attr('src');
+        var title = $(this).find('.list-title').text();
+        var artist = $(this).find('.list-artist').text();
+        targetList.child(itemRank).set({
+            'title': title,
+            'artist': artist,
+            'img': img
+        });
+    });
+    if (myUser == -1) {
+        //Set the sharing URL to the orphan list's id;
+        var listURL = '/top5/list.php?id=' + loadedList;
+        console.log("[saveList()] setting share URL to orphan list at " + listURL);
+        $('#list-link').attr('href', listURL);
+    }
+    targetList.child('listName').set(listName);
+    updateDropdown();
 }
 //DONE editing (needs testing)
 var updateListName = function(listNameEdit) {
