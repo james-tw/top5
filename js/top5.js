@@ -252,6 +252,7 @@ var saveList = function(){
         updateDropdown();
     } else {
         //If no user is logged in, save the list as a public list and give the user a URL to share it.
+        
     }
 }
 //DONE editing (needs testing)

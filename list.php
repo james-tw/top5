@@ -1,6 +1,16 @@
 <?php 
-	$list_user = $_GET['u'];
-	$list_id = $_GET['id'];
+	if (isset($_GET['u'])) {
+		$list_user = $_GET['u'];
+	} else {
+		$list_user = 0;
+	}
+	if (isset($_GET['id'])) {
+		$list_id = $_GET['id'];
+	}
+	if (!isset($_GET['id'])) {
+		header("Location: index.html");
+		exit();
+	}
 ?>
 
 <html>
@@ -119,7 +129,11 @@
 	    	$('.list-container').hide();
 			var loadList = function(listName) {
 			    console.log("attempting to load list.");
-			    loadRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + "<?php echo $list_user; ?>" + "/lists/" + "<?php echo $list_id; ?>"); 
+			    if (<?php echo $list_user; ?> != 0) {
+			    	loadRef = new Firebase("https://second-login-appy.firebaseio.com/users/" + "<?php echo $list_user; ?>" + "/lists/" + "<?php echo $list_id; ?>"); 
+			    } else {
+			    	loadRef = new Firebase("https://second-login-appy.firebaseio.com/orphanlists/" + "<?php echo $list_id; ?>"); 
+			    }
 			    loadRef.on('child_added', function(childSnapshot) {
 			        //For each number 1-5, find the list-item box and fill it with the data from the list.
 			        var itemNum = $('#list-item-' + childSnapshot.name());

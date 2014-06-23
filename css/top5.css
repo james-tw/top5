@@ -192,10 +192,10 @@ a.list-group-item .list-group-item-heading.list-title{
 		max-width:62%;
 	}
 	.dropdown-menu {
-		left: initial;
+		left: auto;
 	}
 	.album-list-dropdown {
-		width: initial;
+		width: auto;
 		position: absolute;
 		bottom: 0;
 		right:142px;
@@ -204,7 +204,7 @@ a.list-group-item .list-group-item-heading.list-title{
 		border-radius: 4px 0 0 0;
 	}
 	.save {
-		width: initial;		
+		width: auto;		
 		float:right;
 		position: absolute;
 		border-radius: 0 4px 0 0;
@@ -212,7 +212,7 @@ a.list-group-item .list-group-item-heading.list-title{
 		right: 32px;
 	}
 	.share {
-		width: initial;
+		width: auto;
 		float:right;
 		position: absolute;
 		bottom: 0px;
